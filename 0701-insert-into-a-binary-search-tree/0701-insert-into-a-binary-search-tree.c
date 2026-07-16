@@ -6,39 +6,22 @@
  *     struct TreeNode *right;
  * };
  */
- void check(struct TreeNode* temp,int val){
-    if(temp!=NULL){
+ struct TreeNode* check(struct TreeNode* temp,int val){
+    if(temp==NULL){
+        struct TreeNode* newNode=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+            newNode->val=val;
+            newNode->left=NULL;
+            newNode->right=NULL;
+            return newNode;
+           
+    }
     if(temp->val<val) {
-        if(temp->right!=NULL)
-        check(temp->right,val);
-        else {
-            struct TreeNode* newNode=(struct TreeNode*)malloc(sizeof(struct TreeNode));
-            newNode->val=val;
-            newNode->left=NULL;
-            newNode->right=NULL;
-            temp->right=newNode;
-        }
+       temp->right=check(temp->right,val);
     }else{
-        if(temp->left!=NULL)
-        check(temp->left,val);
-         else {
-            struct TreeNode* newNode=(struct TreeNode*)malloc(sizeof(struct TreeNode));
-            newNode->val=val;
-            newNode->left=NULL;
-            newNode->right=NULL;
-            temp->left=newNode;
-        }
+          temp->left=check(temp->left,val);
     }
-    }
+    return temp;
  }
 struct TreeNode* insertIntoBST(struct TreeNode* root, int val) {
-      if (root == NULL) {
-        struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
-        newNode->val = val;
-        newNode->left = NULL;
-        newNode->right = NULL;
-        return newNode;
-    }
- check(root,val);
-    return root;
+   return check(root,val);
 }
